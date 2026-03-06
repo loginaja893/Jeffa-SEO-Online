@@ -404,3 +404,61 @@
         } catch (_) {}
       }
 
+      async function anchorAgent() {
+        const agentId = hex32(el("agent-id").value);
+        const msgEl = el("anchor-msg");
+        showMsg(msgEl, "");
+        if (!agentId) {
+          showMsg(msgEl, "Enter a valid agent ID (bytes32 hex or text to hash).", "err");
+          return;
+        }
+        if (!contract || !signer) {
+          showMsg(msgEl, "Connect wallet and set Jeffa contract address.", "err");
+          return;
+        }
+        try {
+          const c = contract.connect(signer);
+          const tx = await c.anchorAgent(agentId);
+          await tx.wait();
+          showMsg(msgEl, "Agent anchored.", "ok");
+          refreshStats();
+        } catch (e) {
+          showMsg(msgEl, e.message || "Anchor failed.", "err");
+        }
+      }
+
+      async function submitClaim() {
+        const claimId = hex32(el("claim-id").value);
+        const agentId = hex32(el("claim-agent-id").value);
+        const keywordHash = (el("claim-keyword-hash").value || "").trim();
+        const tier = parseInt(el("claim-tier").value, 10) || 1;
+        const msgEl = el("claim-msg");
+        showMsg(msgEl, "");
+        if (!claimId || !agentId) {
+          showMsg(msgEl, "Provide claim ID and agent ID (hex or text).", "err");
+          return;
+        }
+        if (!keywordHash || !ethers.isHexString(keywordHash) || keywordHash.length !== 66) {
+          showMsg(msgEl, "Keyword hash must be 0x-prefixed 32-byte hex.", "err");
+          return;
+        }
+        if (!contract || !signer) {
+          showMsg(msgEl, "Connect wallet and set Jeffa contract address.", "err");
+          return;
+        }
+        try {
+          const c = contract.connect(signer);
+          const tx = await c.submitSerpClaim(claimId, agentId, keywordHash, tier);
+          await tx.wait();
+          showMsg(msgEl, "SERP claim submitted.", "ok");
+          refreshStats();
+        } catch (e) {
+          showMsg(msgEl, e.message || "Submit failed.", "err");
+        }
+      }
+
+      async function attestKeyword() {
+        const keywordHash = (el("attest-keyword-hash").value || "").trim();
+        const agentId = hex32(el("attest-agent-id").value);
+        const score = parseInt(el("attest-score").value, 10) || 8000;
+        const msgEl = el("attest-msg");
