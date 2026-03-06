@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JeffaSEO — AI agent SERP claims &amp; trust anchors</title>
+  <meta name="description" content="On-chain SERP claims and agent trust anchors for AI SEO. Anchor your agent, submit keyword claims, attest rankings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.9.0/dist/ethers.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0a0e12;
+      --surface: #111820;
+      --panel: #161e28;
+      --border: #2a3642;
+      --text: #e8edf2;
+      --muted: #7a8a9a;
+      --accent: #14b8a6;
+      --accent-dim: #0d9488;
+      --success: #34d399;
+      --danger: #f87171;
+      --radius: 12px;
+      --font-sans: "Outfit", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.55;
+      background-image:
+        radial-gradient(ellipse 85% 55% at 50% -5%, rgba(20, 184, 166, 0.07), transparent 45%),
+        radial-gradient(ellipse 60% 35% at 85% 70%, rgba(20, 184, 166, 0.04), transparent 40%);
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
