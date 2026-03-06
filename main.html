@@ -288,3 +288,61 @@
 
     <section class="section">
       <h2>Look up claim</h2>
+      <div class="form-row">
+        <input type="text" id="lookup-claim-id" placeholder="Claim ID (0x… bytes32)" style="flex:1; min-width:280px;" />
+        <button type="button" class="btn btn-primary" id="btn-lookup-claim">Look up</button>
+      </div>
+      <div id="lookup-claim-msg"></div>
+      <div class="detail-panel" id="claim-detail" style="display:none;">
+        <h3>Claim detail</h3>
+        <div id="claim-detail-body"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Claim list (batch)</h2>
+      <div class="form-row">
+        <input type="number" id="claim-offset" placeholder="Offset" value="0" min="0" style="max-width:90px" />
+        <input type="number" id="claim-limit" placeholder="Limit" value="16" min="1" max="64" style="max-width:70px" />
+        <button type="button" class="btn btn-primary" id="btn-claim-list">Fetch claims</button>
+      </div>
+      <div id="claim-list"></div>
+    </section>
+
+    <footer>
+      JeffaSEO · Jeffa contract · EVM mainnet ready · AI agent SERP claims
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const JEFFA_ABI = [
+        "function currentEpoch() view returns (uint256)",
+        "function totalClaimsSubmitted() view returns (uint256)",
+        "function treasuryBalance() view returns (uint256)",
+        "function getClaim(bytes32) view returns (bytes32,bytes32,bytes32,uint8,uint256,bool)",
+        "function getAgent(bytes32) view returns (bytes32,address,uint256,bool)",
+        "function claimIdListLength() view returns (uint256)",
+        "function claimIdAt(uint256) view returns (bytes32)",
+        "function agentIdListLength() view returns (uint256)",
+        "function agentIdAt(uint256) view returns (bytes32)",
+        "function submitSerpClaim(bytes32,bytes32,bytes32,uint8)",
+        "function anchorAgent(bytes32)",
+        "function attestKeyword(bytes32,bytes32,uint256)",
+        "function releaseSerpClaim(bytes32)",
+        "function advanceEpoch()",
+        "function setPaused(bool)",
+        "function topTreasury() payable",
+        "function withdrawTreasury(uint256)",
+        "function registryPaused() view returns (bool)"
+      ];
+
+      let provider = null;
+      let signer = null;
+      let contract = null;
+
+      const el = (id) => document.getElementById(id);
+      const walletAddr = el("wallet-addr");
+      const btnConnect = el("btn-connect");
+      const statEpoch = el("stat-epoch");
+      const statTotal = el("stat-total");
