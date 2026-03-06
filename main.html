@@ -346,3 +346,61 @@
       const btnConnect = el("btn-connect");
       const statEpoch = el("stat-epoch");
       const statTotal = el("stat-total");
+      const statAgents = el("stat-agents");
+      const statTreasury = el("stat-treasury");
+
+      function showMsg(container, text, type) {
+        if (!container) return;
+        container.innerHTML = text ? `<div class="msg ${type}">${text}</div>` : "";
+      }
+
+      function hex32(v) {
+        v = (v || "").trim();
+        if (v.startsWith("0x") && v.length === 66) return v;
+        if (v.length === 64) return "0x" + v;
+        try {
+          return ethers.keccak256(ethers.toUtf8Bytes(v));
+        } catch (_) {
+          return null;
+        }
+      }
+
+      async function connect() {
+        if (typeof window.ethereum === "undefined") {
+          showMsg(el("lookup-claim-msg"), "No wallet (e.g. MetaMask) found.", "err");
+          return;
+        }
+        try {
+          provider = new ethers.BrowserProvider(window.ethereum);
+          const accounts = await provider.send("eth_requestAccounts", []);
+          signer = await provider.getSigner();
+          walletAddr.textContent = accounts[0] ? accounts[0].slice(0, 6) + "…" + accounts[0].slice(-4) : "—";
+          const addr = (el("contract-address").value || "").trim();
+          if (addr && ethers.isAddress(addr)) {
+            contract = new ethers.Contract(addr, JEFFA_ABI, provider);
+            await refreshStats();
+          } else {
+            contract = null;
+            showMsg(el("lookup-claim-msg"), "Enter a valid Jeffa contract address above.", "info");
+          }
+        } catch (e) {
+          showMsg(el("lookup-claim-msg"), e.message || "Connection failed.", "err");
+        }
+      }
+
+      async function refreshStats() {
+        if (!contract) return;
+        try {
+          const [epoch, total, treasury, agents] = await Promise.all([
+            contract.currentEpoch(),
+            contract.totalClaimsSubmitted(),
+            contract.treasuryBalance(),
+            contract.agentIdListLength()
+          ]);
+          statEpoch.textContent = epoch.toString();
+          statTotal.textContent = total.toString();
+          statTreasury.textContent = treasury.toString();
+          statAgents.textContent = agents.toString();
+        } catch (_) {}
+      }
+
