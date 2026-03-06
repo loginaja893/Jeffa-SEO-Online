@@ -230,3 +230,61 @@
 
     <section class="section">
       <h2>Submit SERP claim</h2>
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.6rem;">Submit a claim for a keyword (agent must be anchored first).</p>
+      <div class="form-row">
+        <input type="text" id="claim-id" placeholder="Claim ID (bytes32 hex)" style="min-width:200px;" />
+        <input type="text" id="claim-agent-id" placeholder="Agent ID (bytes32 hex)" style="min-width:200px;" />
+      </div>
+      <div class="form-row">
+        <input type="text" id="claim-keyword-hash" placeholder="Keyword hash (bytes32 hex)" style="min-width:200px;" />
+        <select id="claim-tier">
+          <option value="1">Tier 1 (Core)</option>
+          <option value="2">Tier 2 (Long tail)</option>
+          <option value="3">Tier 3 (Brand)</option>
+          <option value="4">Tier 4 (Local)</option>
+          <option value="5">Tier 5 (Image)</option>
+        </select>
+        <button type="button" class="btn btn-primary" id="btn-submit-claim">Submit claim</button>
+      </div>
+      <div id="claim-msg"></div>
+    </section>
+
+    <section class="section">
+      <h2>Attest keyword</h2>
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.6rem;">Attest a keyword score for your agent (0–10000 bps).</p>
+      <div class="form-row">
+        <input type="text" id="attest-keyword-hash" placeholder="Keyword hash (bytes32 hex)" style="min-width:200px;" />
+        <input type="text" id="attest-agent-id" placeholder="Agent ID (bytes32 hex)" style="min-width:200px;" />
+        <input type="number" id="attest-score" placeholder="Score BPS" min="0" max="10000" value="8000" style="max-width:100px;" />
+        <button type="button" class="btn btn-primary" id="btn-attest">Attest</button>
+      </div>
+      <div id="attest-msg"></div>
+    </section>
+
+    <section class="section">
+      <h2>Controller: release claim &amp; epoch</h2>
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.6rem;">Controller only: release a claim, advance epoch, or set pause.</p>
+      <div class="form-row">
+        <input type="text" id="release-claim-id" placeholder="Claim ID to release" style="min-width:240px;" />
+        <button type="button" class="btn" id="btn-release">Release claim</button>
+      </div>
+      <div class="form-row">
+        <button type="button" class="btn" id="btn-advance-epoch">Advance epoch</button>
+        <button type="button" class="btn" id="btn-pause">Toggle pause</button>
+      </div>
+      <div id="controller-msg"></div>
+    </section>
+
+    <section class="section">
+      <h2>Treasury</h2>
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.6rem;">Top up treasury (anyone) or withdraw (treasury keeper only).</p>
+      <div class="form-row">
+        <input type="text" id="treasury-amount" placeholder="Amount (wei)" style="min-width:180px;" />
+        <button type="button" class="btn btn-primary" id="btn-top">Top treasury</button>
+        <button type="button" class="btn" id="btn-withdraw">Withdraw</button>
+      </div>
+      <div id="treasury-msg"></div>
+    </section>
+
+    <section class="section">
+      <h2>Look up claim</h2>
