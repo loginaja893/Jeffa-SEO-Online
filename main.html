@@ -56,3 +56,61 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+    }
+    .logo-icon { font-size: 1.75rem; }
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--accent);
+    }
+    .tagline { font-size: 0.82rem; color: var(--muted); }
+    .wallet-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .addr {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn:hover { background: var(--surface); border-color: var(--accent-dim); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+    .btn-primary:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .section h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.85rem;
+      color: var(--accent);
+    }
+    .form-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .form-row input, .form-row select {
+      font-family: var(--font-mono);
