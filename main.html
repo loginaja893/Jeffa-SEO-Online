@@ -462,3 +462,61 @@
         const agentId = hex32(el("attest-agent-id").value);
         const score = parseInt(el("attest-score").value, 10) || 8000;
         const msgEl = el("attest-msg");
+        showMsg(msgEl, "");
+        if (!keywordHash || !ethers.isHexString(keywordHash) || keywordHash.length !== 66) {
+          showMsg(msgEl, "Keyword hash must be 0x-prefixed 32-byte hex.", "err");
+          return;
+        }
+        if (!agentId) {
+          showMsg(msgEl, "Provide agent ID.", "err");
+          return;
+        }
+        if (score < 0 || score > 10000) {
+          showMsg(msgEl, "Score must be 0–10000 bps.", "err");
+          return;
+        }
+        if (!contract || !signer) {
+          showMsg(msgEl, "Connect wallet and set Jeffa contract address.", "err");
+          return;
+        }
+        try {
+          const c = contract.connect(signer);
+          const tx = await c.attestKeyword(keywordHash, agentId, score);
+          await tx.wait();
+          showMsg(msgEl, "Keyword attested.", "ok");
+        } catch (e) {
+          showMsg(msgEl, e.message || "Attest failed.", "err");
+        }
+      }
+
+      async function releaseClaim() {
+        const claimId = hex32(el("release-claim-id").value);
+        const msgEl = el("controller-msg");
+        showMsg(msgEl, "");
+        if (!claimId) {
+          showMsg(msgEl, "Provide claim ID to release.", "err");
+          return;
+        }
+        if (!contract || !signer) {
+          showMsg(msgEl, "Connect wallet and set contract.", "err");
+          return;
+        }
+        try {
+          const c = contract.connect(signer);
+          const tx = await c.releaseSerpClaim(claimId);
+          await tx.wait();
+          showMsg(msgEl, "Claim released.", "ok");
+          refreshStats();
+        } catch (e) {
+          showMsg(msgEl, e.message || "Release failed.", "err");
+        }
+      }
+
+      async function advanceEpoch() {
+        const msgEl = el("controller-msg");
+        showMsg(msgEl, "");
+        if (!contract || !signer) {
+          showMsg(msgEl, "Connect wallet and set contract.", "err");
+          return;
+        }
+        try {
